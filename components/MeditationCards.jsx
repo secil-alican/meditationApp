@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   containerImage: {
     marginVertical: 30,
     borderRadius: 20,
-    backgroundColor: "#535C91",
+    backgroundColor: "#1B1A55",
     padding: 5,
     borderRadius: 10,
   },
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginVertical: 10,
     fontWeight: "500",
+    fontWeight:"500"
   },
   pressed: {
     opacity: 0.5,

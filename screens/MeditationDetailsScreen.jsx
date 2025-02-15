@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  ImageBackground,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Audio } from "expo-av";
@@ -55,37 +62,54 @@ export default function MeditationDetailsScreen({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={image} style={styles.image} />
-      <Text style={styles.text}>{text}</Text>
-      <Text style={styles.desc}>{description}</Text>
+    <ImageBackground
+      source={require("../assets/images/home.jpeg")}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <Image source={image} style={styles.image} />
+        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.desc}>{description}</Text>
 
-      <Slider
-        style={styles.slider}
-        minimumValue={0}
-        maximumValue={duration}
-        value={position}
-        onValueChange={setPosition}
-        thumbTintColor="#fff"
-        minimumTrackTintColor="#fff"
-      />
+        <Slider
+          style={styles.slider}
+          minimumValue={0}
+          maximumValue={duration}
+          value={position}
+          onValueChange={setPosition}
+          onSlidingComplete={async (value) => {
+            if (sound) {
+              try {
+                await sound.pauseAsync();
+                await sound.setPositionAsync(value);
+                if (isPlaying) {
+                  await sound.playAsync();
+                }
+              } catch (error) {
+                console.log("Hata oluştu:", error);
+              }
+            }
+          }}
+          thumbTintColor="#fff"
+          minimumTrackTintColor="#fff"
+        />
 
-      <View style={styles.timeContainer}>
-        <Text style={styles.timeText}>{formatTime(position)}</Text>
-        <Pressable
-          style={({ pressed }) => pressed && styles.pressed}
-          onPress={isPlaying ? pauseSound : playSound}
-        >
-          <AntDesign
-            name={isPlaying ? "pausecircleo" : "playcircleo"}
-            size={40}
-            color="#fff"
-
-          />
-        </Pressable>
-        <Text style={styles.timeText}>{formatTime(duration)}</Text>
+        <View style={styles.timeContainer}>
+          <Text style={styles.timeText}>{formatTime(position)}</Text>
+          <Pressable
+            style={({ pressed }) => pressed && styles.pressed}
+            onPress={isPlaying ? pauseSound : playSound}
+          >
+            <AntDesign
+              name={isPlaying ? "pausecircleo" : "playcircleo"}
+              size={40}
+              color="#fff"
+            />
+          </Pressable>
+          <Text style={styles.timeText}>{formatTime(duration)}</Text>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -95,13 +119,12 @@ const styles = StyleSheet.create({
     height: 400,
     borderRadius: 10,
     resizeMode: "cover",
-
   },
   container: {
-    flex: 1,
+    flex:1,
     marginHorizontal: 10,
     marginVertical: 30,
-    backgroundColor: "#535C91",
+    backgroundColor: "#1B1A55",
     padding: 10,
     borderRadius: 10,
     justifyContent: "space-evenly",
@@ -129,5 +152,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
   },
-
 });
