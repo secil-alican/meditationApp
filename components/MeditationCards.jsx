@@ -2,25 +2,31 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function MeditationCards({ image, text, description }) {
+export default function MeditationCards({
+  image,
+  text,
+  description,
+  audio,
+}) {
   const navigation = useNavigation();
 
-  function meditationDetails(image, text, description) {
+  function meditationDetails(image, text, description,audio) {
     navigation.navigate("MeditationDetailsScreen", {
       image: image,
       text: text,
       description: description,
+      audio: audio,
     });
   }
 
   return (
     <Pressable
       style={({ pressed }) => pressed && styles.pressed}
-      onPress={() => meditationDetails(image, text, description)}
+      onPress={() => meditationDetails(image, text, description, audio)}
     >
       <View style={styles.containerImage}>
         <Image source={image} style={styles.image} />
-        <View style={{flexWrap:"wrap"}}>
+        <View style={{ flexWrap: "wrap" }}>
           <Text style={styles.text}>{text}</Text>
         </View>
       </View>

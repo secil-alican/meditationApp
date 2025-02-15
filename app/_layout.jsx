@@ -24,6 +24,7 @@ export default function RootLayout() {
             component={HomeScreen}
             options={{ title: "Keşfet", headerTitleAlign: "center" }}
           />
+
           <Stack.Screen
             name="MeditationDetailsScreen"
             component={MeditationDetailsScreen}
